@@ -13,6 +13,8 @@ zip : Vect n a -> Vect n b -> Vect n (a, b)
 zip [] ys = []
 zip (x :: xs) (y :: ys) = (x, y) :: zip xs ys
 
+(Eq ty) => Eq (Vect Nat ty) where
+
 -- vectTake : (i : Nat) -> Vect n a -> Maybe Vect i a
 -- vectTake Z xs = Just []
 -- vectTake {n} i (x :: xs) = case integerToFin i n of
