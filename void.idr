@@ -1,4 +1,10 @@
-import Data.Vect
+--import Data.Vect
+
+data Vect : Nat -> Type -> Type where
+  Nil : Vect Z a
+  (::) : (x : a) -> (xs : Vect k a) -> Vect (S k) a
+
+%name Vect xs, ys, zs
 
 twoPlusTwoIsNotFive : 2 + 2 = 5 -> Void
 twoPlusTwoIsNotFive Refl impossible
@@ -24,3 +30,12 @@ checkEqNat (S k) (S j) = case checkEqNat k j of
 headUnequal : DecEq a => { xs: Vect n a } -> { ys: Vect n a } ->
                          (contra : (x = y) -> Void) -> ((x :: xs) = (y :: ys)) -> Void
 headUnequal contra Refl = contra Refl
+
+tailUnequal : DecEq a => { xs: Vect n a } -> { ys: Vect n a } ->
+                         (contra : (xs = ys) -> Void) -> ((x :: xs) = (y :: ys)) -> Void
+tailUnequal contra Refl = contra Refl
+
+DecEq a => DecEq (Vect n a) where
+  decEq [] [] = Yes Refl
+  decEq xs ys = case headUnequal (xs = ys) of
+                              val => ?foo
